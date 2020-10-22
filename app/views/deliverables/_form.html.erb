@@ -1,0 +1,120 @@
+<%= labelled_fields_for :deliverable, @deliverable do |f| %>
+
+<% if @deliverable.allowed_target_projects.any? %>
+<%= deliverable_field :project do %>
+  <p><%= f.select :project_id, project_tree_options_for_select(@deliverable.allowed_target_projects, selected: @deliverable.project),
+         required: true %></p>
+<% end %>
+<% end %>
+
+<%= deliverable_field :subject do %>
+  <p><%= f.text_field :subject, size: 80, maxlength: 255, required: true %></p>
+<% end %>
+
+<%= deliverable_field :description do %>
+<p>
+  <%= f.label_for_field :description %>
+  <%= content_tag 'span', id: 'deliverable_description_and_toolbar' do %>
+  <%= f.text_area :description,
+      cols: 60,
+      rows: (@deliverable.description.blank? ? 10 : [[10, @deliverable.description.length / 50].max, 100].min),
+      accesskey: accesskey(:edit),
+      class: 'wiki-edit',
+      no_label: true %>
+  <% end %>
+  <%= wikitoolbar_for 'deliverable_description' %>
+</p>
+<% end %>
+
+<div class="splitcontent">
+  <div class="splitcontentleft">
+    <%= deliverable_field :status_id do %>
+      <p><%= f.select :status_id, @deliverable.allowed_statuses.map { |s| [s.name, s.id] }, required: true %></p>
+    <% end %>
+
+    <%= deliverable_field :due do %>
+      <p><%= f.text_field :due, size: 10, type: 'date' %></p>
+      <%= calendar_for('deliverable_due') %>
+    <% end %>
+
+    <% @deliverable.custom_field_values.each do |c| %>
+    <%= deliverable_field "cf_#{c.custom_field.id}" do %>
+      <p><%= custom_field_tag_with_label :deliverable, c %></p>
+    <% end %>
+    <% end %>
+  </div>
+  <div class="splitcontentright">
+    <%= deliverable_field :budget_attributes do %>
+    <fieldset class="tabular">
+      <legend><%= l(:label_budget) %></legend>
+      <%= calculator(@deliverable) %>
+    </fieldset>
+    <% end %>
+
+    <%= deliverable_field :assigns_attributes do %>
+    <fieldset class="tabular">
+      <legend>
+        <%= l(:label_deliverable_assigns) %>
+      </legend>
+
+      <table class="deliverable-assigns table">
+        <thead>
+          <th><%= l(:field_user) %></th>
+          <th><%= l(:field_activity) %></th>
+          <th><%= l(:field_hours) %></th>
+          <td><span title="<%= l(:button_add) %>" class="icon icon-add"></span></td>
+        </thead>
+        <tbody>
+          <% @deliverable.assigns.each do |assign| %>
+          <tr class="deliverable-assign" data-user="<%= assign.user_id %>" data-activity="<%= assign.activity_id %>">
+            <td class="user-col">
+              <%= select_tag('deliverable[assigns_attributes][][user_id]', options_from_collection_for_select(DeliverableAssign.users_for_project(@project), 'id', 'name', assign.user_id), id: '', class: 'user', include_blank: true, data: { name: 'user' }) %>
+            </td>
+            <td class="activity-col">
+              <%= deliverable_activities_select(assign) %>
+            </td>
+            <td class="hours-col">
+              <%= hours_field('deliverable[assigns_attributes][][hours]', assign.hours, class: 'hours', id: '') %>
+            </td>
+            <td>
+              <span title="<%= l(:button_delete) %>" class="icon icon-del"></span>
+              <%= hidden_field_tag('deliverable[assigns_attributes][][id]', assign.id, id: nil) %>
+              <%= hidden_field_tag('deliverable[assigns_attributes][][_destroy]', nil, class: 'deliverable-assign-destroy', id: nil) %>
+            </td>
+          </tr>
+          <% end %>
+          <tr class="deliverable-assign deliverable-assign-empty">
+            <td class="user-col">
+              <%= select_tag('deliverable[assigns_attributes][][user_id]', options_from_collection_for_select(DeliverableAssign.users_for_project(@project), 'id', 'name'), id: '', class: 'user', include_blank: true,  data: { name: 'user' }) %>
+            </td>
+            <td class="activity-col">
+              <%= deliverable_activities_select %>
+            </td>
+            <td class="hours-col">
+              <%= hours_field('deliverable[assigns_attributes][][hours]', 0, class: 'hours', id: '') %>
+            </td>
+            <td>
+              <span title="<%= l(:button_delete) %>" class="icon icon-del"></span>
+              <%= hidden_field_tag('deliverable[assigns_attributes][][id]', nil, id: nil) %>
+              <%= hidden_field_tag('deliverable[assigns_attributes][][_destroy]', nil, class: 'deliverable-assign-destroy', id: nil) %>
+            </td>
+          </tr>
+          <tr>
+            <td></td>
+            <td></td>
+            <td><%= hours_field('', @deliverable.assigns.sum(:hours),
+                    class: 'hours deliverable-assigns-sum', disabled: true) %></td>
+            <td></td>
+          </tr>
+        </tbody>
+      </table>
+    </fieldset>
+    <% end %>
+  </div>
+</div>
+
+<fieldset>
+  <legend><%= l(:label_attachment_plural) %></legend>
+  <p><%= render :partial => 'attachments/form', :locals => {:container => @deliverable} %></p>
+</fieldset>
+<% end %>

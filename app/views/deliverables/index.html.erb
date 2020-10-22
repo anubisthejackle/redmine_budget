@@ -1,0 +1,110 @@
+<style>
+td.budget, td.labor_budget, td.spent, td.materials, td.overhead, td.profit, td.cost_per_hour, td.total_hours {
+  text-align: right;
+}
+<% if @project %>
+#tr_project_id {
+  display: none;
+}
+<% end %>
+</style>
+
+<div class="contextual">
+  <% if !@query.new_record? && @query.editable_by?(User.current) %>
+  <%= link_to l(:button_edit), edit_deliverable_query_path(@query), class: 'icon icon-edit' %>
+  <%= delete_link deliverable_query_path(@query) %>
+  <% end %>
+
+  <%= link_to l(:label_deliverable_new), new_project_deliverable_path, class: 'icon icon-add' if allowed_management? && @project %>
+</div>
+
+<h2><%= @query.new_record? ? l(:label_budget) : h(@query.name) %></h2>
+
+<% html_title(@query.new_record? ? l(:label_budget) : @query.name) %>
+
+<%= form_tag({ controller: 'deliverables', action: 'index' },
+            method: :get, id: 'query_form') do %>
+    <%= hidden_field_tag 'set_filter', '1' %>
+    <div id="query_form_content" class="hide-when-print">
+    <fieldset id="filters" class="collapsible <%= @query.new_record? ? "" : "collapsed" %>">
+      <legend onclick="toggleFieldset(this);"><%= l(:label_filter_plural) %></legend>
+      <div style="<%= @query.new_record? ? "" : "display: none;" %>">
+        <%= render partial: 'queries/filters', locals: { query: @query} %>
+      </div>
+    </fieldset>
+    <fieldset class="collapsible collapsed">
+      <legend onclick="toggleFieldset(this);"><%= l(:label_options) %></legend>
+      <div style="display: none;">
+        <table>
+          <tr>
+            <td><%= l(:field_column_names) %></td>
+            <td><%= render_query_columns_selection(@query) %></td>
+          </tr>
+          <tr>
+            <td><label for='group_by'><%= l(:field_group_by) %></label></td>
+            <td><%= select_tag('group_by',
+                               options_for_select(
+                                 [[]] + @query.groupable_columns.collect {|c| [c.caption, c.name.to_s]},
+                                 @query.group_by)
+                       ) %></td>
+          </tr>
+          <tr>
+            <td><%= l(:button_show) %></td>
+            <td><%= available_block_columns_tags(@query) %></td>
+          </tr>
+        </table>
+      </div>
+    </fieldset>
+    </div>
+    <p class="buttons hide-when-print">
+    <%= link_to_function l(:button_apply), '$("#selected_columns > option").prop("selected", true); $("#query_form").submit(); return false;', class: 'icon icon-checked' %>
+    <%= link_to l(:button_clear), { set_filter: 1, project_id: @project }, class: 'icon icon-reload'  %>
+    <% if @query.new_record? && User.current.allowed_to?(:manage_budget, @project, global: true) %>
+    <%= link_to_function l(:button_save),
+        "$('#query_form').attr('action', '#{new_deliverable_query_path(project_id: @project.try(:id))}').submit()",
+        :class => 'icon icon-save' %>
+    <% end %>
+    </p>
+<% end %>
+
+<%= error_messages_for 'query' %>
+<% if @query.valid? %>
+  <% if @deliverables.empty? %>
+    <p class="nodata"><%= l(:label_no_data) %></p>
+  <% else %>
+    <%= render partial: 'deliverables/list', locals: { deliverables: @deliverables, query: @query } %>
+    <p class="pagination"><%= pagination_links_full @deliverable_pages, @deliverable_count %></p>
+  <% end %>
+<% end %>
+
+<% other_formats_links do |f| %>
+  <%= f.link_to 'CSV', url: params, onclick: "showModal('csv-export-options', '330px'); return false;" %>
+<% end %>
+
+<div id="csv-export-options" style="display:none;">
+  <h3 class="title"><%= l(:label_export_options, export_format: 'CSV') %></h3>
+  <%= form_tag(params.merge({ format: 'csv', page: nil}), method: :get, id: 'csv-export-form') do %>
+  <p>
+    <label><%= radio_button_tag 'columns', '', true %> <%= l(:description_selected_columns) %></label><br />
+    <label><%= radio_button_tag 'columns', 'all' %> <%= l(:description_all_columns) %></label>
+  </p>
+  <p>
+    <label><%= check_box_tag 'description', '1', @query.has_column?(:description) %> <%= l(:field_description) %></label>
+  </p>
+  <p class="buttons">
+    <%= submit_tag l(:button_export), name: nil, onclick: "hideModal(this);" %>
+    <%= submit_tag l(:button_cancel), name: nil, onclick: "hideModal(this);", type: 'button' %>
+  </p>
+  <% end %>
+</div>
+
+<% content_for :header_tags do %>
+  <%= stylesheet_link_tag 'budget.css', plugin: 'redmine_budget', media: 'screen' %>
+  <%= javascript_include_tag('budget', plugin: 'redmine_budget') %>
+<% end %>
+
+<% content_for :sidebar do %>
+  <%= render partial: 'deliverables/sidebar' %>
+<% end %>
+
+<%= context_menu deliverables_context_menu_path %>

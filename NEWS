@@ -1,0 +1,35 @@
+0.11.0 (2016-12-30)
+
+This version comes with rethinked deliverable statuses that let you create
+more sophisticated workflows and support for standard Redmine features like
+attachments and saved queries along with a lot of fixes and small improvements.
+
+ - [Feature] Deliverable status workflow transition.
+ - [Feature] Saved queries for deliverables.
+ - [Feature] Attachments for individual deliverables.
+ - [Feature] Move deliverables between projects.
+ - [Feature] Persistent query options within user session.
+ - [Feature] Define protected fields based on deliverable status.
+ - [UI] More readable deliverable overview on list.
+ - [UI] Added Estimated Time and Spent Time next to deliverable fields.
+ - [Usage] Change "protected attributes" name to "protected fields".
+ - [Usage] Support raw queries on Rails 4 when calculating project budget for
+    better performance.
+ - [Usage] Add "Set deliverable" permission to allow users without Budget access
+    to assign deliverables to issues.
+ - [Usage] Deliverable assigns in list overview now display all assigns.
+    Previously, only users with logged time were shown.
+ - [Usage] Show multiple roles for each assigned user in list overview.
+ - [Usage] When using "Issues" link in deliverable overview, all issues will be shown.
+ - [Fix] Deliverable status filter.
+ - [Fix] Support for native datepicker for Windows 10.
+ - [Fix] Keep Issue-Deliverable relationship integrity when deliverable is deleted.
+ - [Fix] Total Estimated Time calculation when issues with same deliverable were nested.
+ - [Fix] Settings for menu visibility.
+ - [Fix] Budget calculation when percentage value was used in "Overhead".
+ - [Fix] Rounding "Cost" column value when zero.
+ - [Fix] Error caused by custom fields on Redmine 2.x.
+
+0.9.0 (2016-10-19)
+
+Initial public release.

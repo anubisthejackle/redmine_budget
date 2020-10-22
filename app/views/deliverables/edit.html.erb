@@ -1,0 +1,19 @@
+<h2><%= l(:label_update_deliverable) %></h2>
+
+<%= labelled_form_for @deliverable, url: project_deliverable_path(@project, @deliverable),
+    html: { class: 'edit_deliverable', multipart: true } do |f| %>
+<%= error_messages_for 'deliverable' %>
+<%= hidden_field_tag 'copy_from', params[:copy_from] if params[:copy_from] %>
+<div class="box tabular">
+  <div id="all_attributes">
+    <%= render :partial => 'form', :locals => {:f => f} %>
+  </div>
+</div>
+
+<%= submit_tag l(:button_update) %>
+<% end %>
+
+<% content_for :header_tags do %>
+  <%= stylesheet_link_tag 'budget', plugin: :redmine_budget %>
+  <%= javascript_include_tag('budget', plugin: :redmine_budget) %>
+<% end %>

@@ -1,0 +1,74 @@
+<% settings = RedmineBudget::Settings
+   query = DeliverableQuery.new(name: '_') %>
+
+<fieldset>
+  <p id="supervisor_group">
+    <label><%= l(:label_supervisor_group) %></label>
+    <%= select_tag('settings[supervisor_group_id]', options_from_collection_for_select(Group.all, 'id', 'name',
+        settings.supervisor_group_id), include_blank: true) %>
+    <em class="info"><%= l(:text_supervisor_group_info) %></em>
+  </p>
+</fieldset>
+
+<fieldset>
+  <legend><%= l(:settings_deliverable_query_defaults) %></legend>
+  <table>
+    <tr>
+      <td><%= l(:field_column_names) %></td>
+      <td>
+        <%= render_query_columns_selection(
+            DeliverableQuery.new(column_names: settings.list_default_columns.map(&:to_sym)),
+            name: 'settings[list_default_columns]') %>
+      </td>
+    </tr>
+    <tr>
+      <td><%= l(:button_show) %></td>
+      <td>
+        <% query.available_block_columns.each do |column| %>
+        <label class="inline">
+          <%= check_box_tag('settings[list_default_columns][]', column.name.to_s, settings.list_default_columns.include?(column.name.to_s)) %>
+          <%= column.caption %>
+        </label>
+        <% end %>
+      </td>
+    </tr>
+  </table>
+</fieldset>
+
+<fieldset>
+  <legend>Menu</legend>
+  <table>
+    <tr>
+      <td>Top menu</td>
+      <td>
+        <%= hidden_field_tag('settings[top_menu]', '0') %>
+        <%= check_box_tag('settings[top_menu]', '1', settings.top_menu?) %>
+      </td>
+    </tr>
+    <tr>
+      <td>Application menu</td>
+      <td>
+        <%= hidden_field_tag('settings[application_menu]', '0') %>
+        <%= check_box_tag('settings[application_menu]', '1', settings.application_menu?) %>
+      </td>
+    </tr>
+  </table>
+</fieldset>
+
+<style>
+  .tabular label.block.block-indent {
+    padding-left: 2em;
+  }
+
+  .tabular.settings .query-columns label {
+    width: 100%;
+    margin-left: 0;
+    text-align: left;
+  }
+</style>
+
+<script>
+ $('#settings form').on('submit', function() {
+   $('#selected_columns > option').prop('selected', true);
+ });
+</script>

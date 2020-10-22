@@ -1,0 +1,38 @@
+<div class="contextual">
+  <%= link_to l(:label_deliverable_status_new), { action: 'new' }, :class => 'icon icon-add' %>
+</div>
+
+<h2><%=l(:label_deliverable_status_plural)%></h2>
+
+<% if @deliverable_statuses.empty? %>
+<p class="nodata"><%= l(:label_no_data) %></p>
+<% else %>
+
+<table class="list">
+  <thead>
+    <tr>
+      <th><%=l(:field_status)%></th>
+      <th><%=l(:field_is_default)%></th>
+      <th><%=l(:field_deliverable_is_closed)%></th>
+      <th><%=l(:button_sort)%></th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+
+    <% @deliverable_statuses.each do |status| %>
+    <tr class="<%= cycle("odd", "even") %>">
+      <td class="name"><%= link_to status.name, :action => 'edit', :id => status %></td>
+      <td align="center"><%= checked_image status.is_default? %></td>
+      <td align="center"><%= checked_image status.is_closed? %></td>
+      <td align="center" style="width: 15%;"><%= reorder_links('deliverable_status', { action: 'update', id: status }, :put) %></td>
+      <td class="buttons">
+        <%= delete_link deliverable_status_path(status) %>
+      </td>
+    </tr>
+    <% end %>
+  </tbody>
+</table>
+<% end %>
+
+<% html_title(l(:label_deliverable_status_plural)) -%>

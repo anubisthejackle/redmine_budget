@@ -1,0 +1,13 @@
+<h2><%= link_to l(:label_deliverable_status_plural), action: 'index' %> &#187; <%=l(:label_deliverable_status_new)%></h2>
+
+<%= form_for(@deliverable_status) do |f| %>
+<%= error_messages_for 'deliverable_status' %>
+<div class="box tabular">
+<%= render partial: 'form' %>
+</div>
+
+<h3><%= l(:label_status_transitions) %></h3>
+<%= render partial: 'workflow_table' %>
+
+<%= submit_tag l(:button_create) %>
+<% end %>

@@ -1,0 +1,35 @@
+<div class="autoscroll">
+  <table class="list transitions transitions-always">
+    <thead>
+      <tr>
+        <th><%= l(:label_role_plural) %></th>
+        <% @deliverable_status.others.each do |status| %>
+        <th>
+          <%= link_to_function(image_tag('toggle_check.png'), "toggleCheckboxesBySelector('.flag-status-#{status.id}')",
+              title: "#{l(:button_check_all)}/#{l(:button_uncheck_all)}") %>
+          <%= status.name %>
+        </th>
+        <% end %>
+      </tr>
+    </thead>
+    <tbody>
+      <% Role.sorted.each do |role| %>
+      <tr>
+        <td>
+          <%= link_to_function(image_tag('toggle_check.png'), "toggleCheckboxesBySelector('.flag-role-#{role.id}')",
+              title: "#{l(:button_check_all)}/#{l(:button_uncheck_all)}") %>
+          <%= role.name %>
+        </td>
+        <% @deliverable_status.others.each do |status| %>
+        <td align="center">
+          <%= hidden_field_tag 'deliverable_status[workflow_rules_attributes][][role_id]', role.id %>
+          <%= hidden_field_tag 'deliverable_status[workflow_rules_attributes][][new_status_id]', status.id %>
+          <%= check_box_tag 'deliverable_status[workflow_rules_attributes][][_enabled]', 1, @deliverable_status.new_status?(role.id, status.id),
+              class: "flag-status-#{status.id} flag-role-#{role.id}" %>
+        </td>
+        <% end %>
+      </tr>
+      <% end %>
+    </tbody>
+  </table>
+</div>

@@ -1,0 +1,30 @@
+<%= labelled_fields_for :deliverable_status, @deliverable_status do |f| %>
+
+<p>
+  <%= f.text_field :name, required: true %>
+</p>
+
+<p>
+  <%= f.check_box :is_closed, label: :field_deliverable_is_closed %>
+</p>
+
+<p>
+  <%= f.check_box :is_default %>
+</p>
+
+<p>
+  <%= label_tag '', l(:field_deliverable_protected_fields) %>
+
+  <% DeliverableStatus::PROTECTED_FIELDS.each do |attr, name| %>
+  <label class="block block-indent">
+    <%= check_box_tag 'deliverable_status[protected_fields][]', attr,
+        @deliverable_status.protected_fields.include?(attr.to_s) %>
+    <%= l("field_#{name}") %>
+  </label>
+  <% end %>
+
+  <em class="info"><%= l(:text_deliverable_protected_fields) %></em>
+</p>
+
+
+<% end %>

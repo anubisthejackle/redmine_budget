@@ -1,0 +1,7 @@
+<% if @budget %>
+<div style="margin-top: 1.5em;">
+  <%= render :partial => 'budget', object: @budget %>
+</div>
+<% end %>
+
+<%= render_sidebar_queries %>

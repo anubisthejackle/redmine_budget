@@ -1,0 +1,97 @@
+<div class="contextual">
+  <%= link_to l(:button_edit), edit_deliverable_path(@deliverable), class: 'icon icon-edit' %>
+  <%= link_to l(:button_copy), copy_deliverable_path(@deliverable), class: 'icon icon-copy' %>
+  <%= link_to l(:button_delete), deliverable_path(@deliverable),
+      data: { confirm: l(:text_are_you_sure), method: :delete },
+      class: 'icon icon-del' %>
+</div>
+
+<h2><%= @deliverable.subject %></h2>
+
+<div class="box">
+  <div class="splicontent">
+    <div class="splitcontentleft">
+      <dl class="deliverable-attributes">
+        <dt><%= l(:field_status) %>:</dt>
+        <dd><%= @deliverable.status %></dd>
+        <dt><%= l(:field_due_date) %>:</dt>
+        <dd><%= format_date(@deliverable.due) %></dd>
+
+        <% @deliverable.custom_field_values.each do |cv| %>
+        <dt><%= cv.custom_field.name %>:</dt>
+        <dd><%= show_value(cv) %></dd>
+        <% end %>
+      </dl>
+      <dl class="deliverable-attributes">
+        <dt><%= l(:field_estimated_hours) %></dt>
+        <dd><%= l_hours(@deliverable.estimated_hours) %></dd>
+        <dt><%= l(:label_spent_time) %></dt>
+        <dd><%= l_hours(@deliverable.spent_hours) %></dd>
+      </dl>
+    </div>
+    <div class="deliverable-budget splitcontentright">
+      <%= deliverable_budget(@deliverable) %>
+    </div>
+  </div>
+
+  <div style="clear: both;"></div>
+
+  <% if @deliverable.description? %>
+  <hr/>
+
+  <div id="deliverable-description">
+    <p>
+      <strong><%= l(:field_description) %></strong>
+    </p>
+
+    <div class="wiki">
+      <%= textilizable @deliverable, :description, attachments: @deliverable.attachments %>
+    </div>
+  </div>
+  <% end %>
+
+  <%= link_to_attachments @deliverable, :thumbnails => true %>
+
+  <% if @deliverable.members.any? %>
+  <hr/>
+
+  <div id="deliverable-assigns">
+    <p>
+      <strong><%= l(:label_deliverable_assigns) %></strong>
+    </p>
+
+    <table class="list">
+      <tbody>
+        <% @deliverable.members.each do |assign| %>
+        <tr>
+          <td><%= deliverable_assign_user(assign) %></td>
+          <td><%= deliverable_assign_activity(assign) %></td>
+          <td><%= deliverable_assign_info(assign) %></td>
+          <td title="<%= deliverable_assign_progress_title %>">
+            <%= progress_bar(assign.progress) %>
+          </td>
+        </tr>
+        <% end %>
+      </tbody>
+    </table>
+  </div>
+  <% end %>
+
+  <% if @deliverable.issues.any? %>
+  <hr/>
+
+  <div id="deliverable-issues">
+    <p>
+      <strong><%= l(:label_issue_plural) %></strong>
+    </p>
+
+    <%= deliverable_issues(@deliverable.issues) %>
+  </div>
+  <% end %>
+
+</div>
+
+<% content_for :header_tags do %>
+  <%= stylesheet_link_tag 'budget', plugin: :redmine_budget %>
+  <%= javascript_include_tag('budget', plugin: :redmine_budget) %>
+<% end %>

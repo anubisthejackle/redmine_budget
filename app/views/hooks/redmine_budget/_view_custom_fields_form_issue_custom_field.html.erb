@@ -1,0 +1,25 @@
+<script>
+$(function() {
+  var appendMultipleField = function(checked) {
+     $('#custom_field_field_format').parent().after('<p><label for="custom_field_multiple">Multiple values</label><input name="custom_field[multiple]" value="0" type="hidden"><input id="custom_field_multiple" name="custom_field[multiple]" value="1" type="checkbox"' + (checked ? ' checked' : '') + '></p>');
+  }
+
+  if ($('#custom_field_field_format > option[selected][value="deliverable"]').length) {
+    $('#custom_field_min_length, #custom_field_regexp, #custom_field_default_value').each(function() {
+      $(this).parent().remove();
+    });
+
+    appendMultipleField(<%= @custom_field.multiple? %>);
+  }
+ });
+
+$(document).on('ajaxComplete', function(e, xhr, settings) {
+  if (/(?=^\/custom_fields\/new\.js)(?=.*=deliverable)/.test(settings.url)) {
+    console.log('abc')
+
+    if (!$('#custom_field_multiple').length) {
+      appendMultipleField(false);
+    }
+ }
+});
+</script>

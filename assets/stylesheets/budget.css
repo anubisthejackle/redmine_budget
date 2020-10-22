@@ -1,0 +1,244 @@
+td.budget, td.labor_budget, td.spent, td.materials, td.overhead, td.profit, td.estimated_hours, td.spent_hours {
+  text-align: right !important;
+}
+
+td.calculation-column {
+  text-align:right;
+  width: auto;
+}
+
+.tabular div.splitcontentright label { margin-left: 0; float: none;}
+.tabular div.splitcontentright  p { padding-left: 80px; }
+
+.budget-assigns input {
+  background: none;
+  border: none;
+}
+
+.budget-assigns.disabled .icon {
+  display: none;
+}
+
+.budget-assigns.disabled .budget-assign-new {
+  visibility: hidden;
+}
+
+.budget-assigns.disabled input,
+.budget-assigns.disabled select {
+  pointer-events: none;
+}
+
+.budget-assign:not(.budget-assign-new) select,
+.budget-assign:not(.budget-assign-new) input {
+  border: none;
+  appearance: none;
+  -moz-appearance: none;
+}
+
+.budget-assign .hours {
+  border: none;
+  text-align: right;
+}
+
+.budget-assign .icon {
+  cursor: pointer;
+  opacity: .4;
+}
+
+.budget-assign .icon:hover {
+  opacity: 1;
+}
+
+#values_deliverable_id_1[multiple] {
+  width: 100%;
+  min-height: 200px;
+}
+
+#values_deliverable_id_1 option[value^="p_"] {
+  font-weight: bold;
+  text-indent: .5em;
+  pointer-events: none;
+}
+
+input#deliverable_subject {
+  width: 99%;
+}
+
+.deliverable-calculator th {
+  text-align: right;
+}
+
+.deliverable-calculator-result {
+  padding-left: 10px;
+  text-align: right;
+  opacity: .6;
+}
+
+.deliverable-attributes {
+  width: 100%;
+  overflow: auto;
+  margin-top: 0;
+}
+
+.deliverable-attributes > * {
+  box-sizing: border-box;
+  float: left;
+}
+
+.deliverable-attributes dt {
+  font-weight: bold;
+  break-after: avoid;
+  clear: both;
+  width: 30%;
+}
+
+.deliverable-attributes dd {
+  float: right;
+  margin: 0;
+  width: 70%;
+}
+
+.edit_deliverable fieldset {
+  position: relative;
+}
+
+.deliverable-assigns {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.hours.deliverable-assigns-sum {
+  background: none;
+  border: none;
+}
+
+.deliverable-assigns .contextual {
+  position: absolute;
+}
+
+.deliverable-assigns select,
+.deliverable-assigns input {
+  margin: 0 auto;
+  background: #fff;
+  border: 1px solid rgba(0, 0, 0, .2);
+  width: 100%;
+  border-radius: 0;
+}
+
+#deliverable-assigns .list td {
+  text-align: left;
+}
+
+.deliverable-assigns td {
+  text-align: center;
+  padding: 0;
+}
+
+.deliverable-assigns td.hours-col {
+  max-width: 3em;
+}
+
+.deliverable-assigns td.type-col {
+  border-width: 1px none 1px none;
+}
+
+.deliverable-assigns select {
+   -webkit-appearance: none;
+      -moz-appearance: none;
+           appearance: none;
+}
+
+.deliverable-assigns input {
+  text-align: center;
+}
+
+.deliverable-assign-empty {
+  display: none;
+}
+
+.deliverable_field-disabled {
+  pointer-events: none;
+  opacity: .6;
+}
+
+table.deliverables td.description,
+table.deliverables td.overview {
+    color: #777;
+    font-size: 90%;
+    text-align: left;
+    white-space: normal;
+}
+
+table.deliverables .overview {
+  min-width: 940px;
+  padding: 0;
+}
+
+table.deliverables td.overview a,
+table.deliverables td.overview a {
+  color: #777;
+  font-weight: bold;
+}
+
+table.deliverables .deliverable-overview-issues td:last-child {
+  text-align: right;
+}
+
+table.deliverables .overview-links {
+  width: 80px;
+}
+
+table.deliverables .overview-links a {
+  display: block;
+}
+
+.deliverables .overview td {
+  border: none;
+  text-align: left;
+}
+
+/** Override behaviour of some themes */
+.deliverables .overview td,
+.deliverables .overview tr:hover td {
+  border: none !important;
+}
+
+.deliverables .overview table {
+  width: 100%;
+  table-layout: fixed;
+}
+
+/* Align columns in deliverable overview */
+table.deliverables .overview-issues { width: 15%; }
+table.deliverables .overview-budget { width: 25%; }
+.deliverable-overview-time td { text-align: left; }
+.deliverable-overview-time td:first-child { width: 60%; }
+.delvierable-overview-assigns td:nth-child(1) { width: 35%; }
+.delvierable-overview-assigns td:nth-child(2) { width: 25%; }
+.delvierable-overview-assigns td:nth-child(3) { white-space: nowrap; }
+.delvierable-overview-assigns td:nth-child(4) { text-align: right; }
+.overview-budget { white-space: nowrap; }
+
+.deliverables .deliverable-attributes dd {
+  text-align: right;
+}
+
+.deliverable-checkbox {
+  display: none;
+}
+
+.deliverable-expander {
+  display: block;
+  background: url(../images/toggle-arrow-closed.gif);
+  width: 16px;
+  height: 16px;
+  cursor: pointer;
+}
+
+.deliverable-version-assign {
+  width: 100%;
+}
+
+tr.open > * > .deliverable-expander {
+  background: url(../images/toggle-arrow-open.gif);
+}

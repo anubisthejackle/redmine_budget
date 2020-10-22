@@ -1,0 +1,11 @@
+(function() {
+  var s = "<%= protected_fields_classes.join(', ').html_safe %>",
+      disabledClass = 'deliverable_field-disabled'
+  $('.' + disabledClass).removeClass(disabledClass);
+
+  <% if @deliverable.status.protected? %>
+  $(s).addClass(disabledClass);
+  <% end %>
+
+  $('select').blur();
+})();

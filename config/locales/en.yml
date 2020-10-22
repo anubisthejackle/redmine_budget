@@ -1,0 +1,59 @@
+en:
+  field_deliverable_is_closed: Deliverable closed
+  field_deliverable_is_protected: Deliverable protected
+  field_cost_per_hour: Cost per hour
+  field_total_hours: Total hours
+  field_overhead: Overhead
+  label_deliverable_assigns: Assigns
+  label_overhead: Overhead
+  field_materials: Material costs
+  label_materials: Materials
+  field_profit: Profit
+  field_budget: Budget
+  label_budget: Budget
+  field_assigns: Assigns
+  label_deliverable_plural: Deliverables
+  label_deliverable_status_plural: Deliverable statuses
+  field_fixed_cost: Fixed Bid
+  field_deliverable: Deliverable
+  field_deliverable_subject: Deliverable
+  field_due: Due Date
+  field_agreement_date: Agreement Date
+  label_deliverable: Deliverable
+  message_updated_issues: "Updated %{count} issues"
+  label_materials: Materials
+  label_profit: Profit
+  label_deliverable_new: New deliverable
+  label_deliverable_status_new: New status
+  label_fixed_cost: Fixed cost
+  permission_set_deliverable: Set deliverable
+  caption_due: Due
+  caption_agreement_date: Agreement
+  caption_progress: Progress
+  caption_subject: Subject
+  caption_score: Score
+  caption_labor_budget: Labor Budget
+  caption_spent: Spent
+  caption_deliverable_issue_progress: Spent Time / Estimated Time
+  caption_deliverable_assign_progress: Spent Time / Assigned Time
+  label_update_deliverable: Update Deliverable
+  label_labor_budget: Labor Budget
+  label_labor_budget_spent: Labor Budget Spent
+  label_labor_budget_remaining: Labor Budget Remaining
+  label_progress: Progress
+  label_budget_score: Budget Score
+  label_overruns: Overruns
+  label_missing_on: Missing on
+  label_next_due_date: Next Due Date
+  label_completion: Completion
+  label_potential_profit: Potential Profit
+  label_bulk_assign: Bulk Assign
+  label_labor: Labor
+  label_assigned_hours: Assigned hours
+  label_supervisor_group: Supervisor group
+  error_no_default_issue_status: No default deliverable status is defined. Please check your configuration (Go to "Administration -> Deliverable statuses").
+  field_deliverable_protected_fields: Protected fields
+  text_deliverable_protected_fields: Only supervisors will be able to edit
+                                     protected fields in deliverables.
+  text_supervisor_group_info: Users of this group will have administrator privileges in Budget.
+  settings_deliverable_query_defaults: Deliverable Query defaults
